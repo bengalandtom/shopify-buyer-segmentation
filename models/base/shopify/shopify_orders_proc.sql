@@ -50,7 +50,7 @@ with orders as (
     	financial_status,
 		_sdc_sequence,
 		first_value(_sdc_sequence) OVER (PARTITION BY order_number, _id ORDER BY _sdc_sequence DESC) lv
-		FROM `{{ {{ target.project }} }}.shopify_{{store}}.orders` 
+		FROM `{{ target.project }}.shopify_{{store}}.orders` 
 		cross join unnest(shipping_lines)
 		where financial_status in ('paid', 'partially_refunded', 'refunded')
 	)
