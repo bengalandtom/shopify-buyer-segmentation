@@ -8,7 +8,7 @@ with orders as (
 		SELECT
 		'{{store}}' store_name,
 		created_at,
-		_id order_number,
+		id order_number,
 		code discount_code,
 		type discount_type,
 		_sdc_sequence,
