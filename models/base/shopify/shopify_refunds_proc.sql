@@ -7,7 +7,7 @@ with refunds as (
 	{% for store in stores %}
 	SELECT
 	'{{store}}' store_name,
-	id order_number,
+	orders.id order_number,
 	checkout_id,
 	financial_status,
 	line_item_id,
@@ -16,7 +16,7 @@ with refunds as (
 	line_item.variant_id variant_id,
 	line_item.id refund_id,
  	_sdc_sequence
-	FROM `{{ target.project }}.shopify_{{store}}.orders` 
+	FROM `{{ target.project }}.shopify_{{store}}.orders` orders
 	cross join unnest(refunds), unnest(refund_line_items)
   	where financial_status like '%refund%'
 	{% if not loop.last %} UNION ALL {% endif %}
