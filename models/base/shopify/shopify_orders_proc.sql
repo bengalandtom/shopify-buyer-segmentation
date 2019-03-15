@@ -36,7 +36,7 @@ with orders as (
 		'{{store}}' store_name,
 		'Shopify' as lookup_platform,
     	created_at,
-		orders.id order_number,
+		cast(LTRIM(name,"#") as int64) AS order_number,
     	total_line_items_price total_order_price_undiscounted,
     	total_discounts,
 	    case when total_line_items_price > 0 then total_discounts / total_line_items_price 

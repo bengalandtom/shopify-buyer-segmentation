@@ -4,12 +4,12 @@ with ga_transaction as (
 	date, 
 	store,
 	transactionid,
-    source,
+	source,
 	channel,
 	platform,
 	url,
 	campaign
-	FROM `sbh-marketing`.`agency_data_pipeline`.`ga_transactions`
+	FROM {{ ref('ga_transactions')}}
 ),
 
 customers_by_transaction as (
@@ -27,7 +27,7 @@ customers_by_transaction as (
 	orders,
 	first_order_revenue,
 	lifetime_revenue
-	FROM `sbh-marketing`.`agency_data_pipeline`.`customers_by_transaction`
+	FROM {{ ref('customers_by_transaction')}}
 )
 
 SELECT

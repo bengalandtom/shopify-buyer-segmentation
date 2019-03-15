@@ -8,7 +8,8 @@ with orders as (
 		SELECT
 		'{{store}}' store_name,
 		created_at,
-		id order_number,
+		--id order_number,
+		cast(LTRIM(name,"#") as int64) AS order_number,
 		code discount_code,
 		type discount_type,
 		_sdc_sequence,

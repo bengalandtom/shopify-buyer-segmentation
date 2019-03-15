@@ -7,7 +7,8 @@ with refunds as (
 	{% for store in stores %}
 	SELECT
 	'{{store}}' store_name,
-	orders.id order_number,
+	--orders.id order_number,
+  	cast(LTRIM(name,"#") as int64) AS order_number,
 	checkout_id,
 	financial_status,
 	line_item_id,
