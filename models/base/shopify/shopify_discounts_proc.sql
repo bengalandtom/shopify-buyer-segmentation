@@ -12,7 +12,7 @@ with orders as (
 		code discount_code,
 		type discount_type,
 		_sdc_sequence,
-		first_value(_sdc_sequence) OVER (PARTITION BY order_number, _id ORDER BY _sdc_sequence DESC) lv
+		first_value(_sdc_sequence) OVER (PARTITION BY order_number, id ORDER BY _sdc_sequence DESC) lv
 		FROM `{{ target.project }}.shopify_{{store}}.orders` 
 		cross join unnest(discount_codes)
 	
