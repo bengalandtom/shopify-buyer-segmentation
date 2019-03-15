@@ -4,11 +4,12 @@ with ga_transaction as (
 	date, 
 	store,
 	transactionid,
+    source,
 	channel,
 	platform,
 	url,
 	campaign
-	FROM {{ ref('ga_transactions')}}
+	FROM `sbh-marketing`.`agency_data_pipeline`.`ga_transactions`
 ),
 
 customers_by_transaction as (
@@ -26,7 +27,7 @@ customers_by_transaction as (
 	orders,
 	first_order_revenue,
 	lifetime_revenue
-	FROM {{ ref('customers_by_transaction')}}
+	FROM `sbh-marketing`.`agency_data_pipeline`.`customers_by_transaction`
 )
 
 SELECT
@@ -40,8 +41,10 @@ format_date("%Y-%m", first_order_date) AS first_order_month,
 order_type,
 first_order_revenue,
 lifetime_revenue,
+first_value(source) over w1 as first_order_source,
 first_value(channel) over w1 as first_order_channel,
 first_value(platform) over w1 as first_order_platform,
+source,
 channel,
 platform,
 url,
@@ -61,6 +64,7 @@ FROM (
 	a.order_type,
 	a.first_order_revenue,
 	a.lifetime_revenue,
+    b.source,
 	b.channel,
 	b.platform,
 	b.url,
