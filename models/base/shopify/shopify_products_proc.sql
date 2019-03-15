@@ -12,12 +12,12 @@ with products as (
 	'Shopify' as lookup_platform,
 	product_name,
 	lower(product_type) product_type,
-	product_id,
+	id product_id,
 	sku,
-	id variant_id,
+	--id variant_id,
 	cast(created_at as date) created_at,
 	_sdc_sequence,
-	first_value(_sdc_sequence) OVER (PARTITION BY product_id ORDER BY _sdc_sequence DESC) lv
+	first_value(_sdc_sequence) OVER (PARTITION BY id ORDER BY _sdc_sequence DESC) lv
 	FROM (
 		SELECT
 		variants,
@@ -38,7 +38,7 @@ b.store,
 b.platform,
 max(product_type) product_type,
 product_id,
-variant_id,
+--variant_id,
 sku,
 created_at,
 product_name
@@ -47,6 +47,6 @@ LEFT JOIN {{ref('stores_proc')}} b
 ON ( a.store_name = b.store_name
   AND a.lookup_platform = b.platform )
 where a.lv = a._sdc_sequence
-group by product_id, account, store, platform, sku, variant_id, created_at, product_name
+group by product_id, account, store, platform, sku,  created_at, product_name
 
 {% endif %}	
