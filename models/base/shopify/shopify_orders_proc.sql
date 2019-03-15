@@ -36,7 +36,7 @@ with orders as (
 		'{{store}}' store_name,
 		'Shopify' as lookup_platform,
     	created_at,
-		_id order_number,
+		id order_number,
     	total_line_items_price total_order_price_undiscounted,
     	total_discounts,
 	    case when total_line_items_price > 0 then total_discounts / total_line_items_price 
@@ -49,7 +49,7 @@ with orders as (
     	line_items,
     	financial_status,
 		_sdc_sequence,
-		first_value(_sdc_sequence) OVER (PARTITION BY order_number, _id ORDER BY _sdc_sequence DESC) lv
+		first_value(_sdc_sequence) OVER (PARTITION BY order_number, id ORDER BY _sdc_sequence DESC) lv
 		FROM `{{ target.project }}.shopify_{{store}}.orders` 
 		cross join unnest(shipping_lines)
 		where financial_status in ('paid', 'partially_refunded', 'refunded')
